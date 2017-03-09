@@ -3,6 +3,8 @@
 # MIT LICENSE
 # 2017-02-03 
 
+from QueryExperiments import *
+
 dbfile = "/share/data/CHomP/Projects/DSGRN/DB/data/6D_2016_08_26_cancerE2Fnetwork1.db"
 savefilename="02_Experiment.json"
 gene = "S"
