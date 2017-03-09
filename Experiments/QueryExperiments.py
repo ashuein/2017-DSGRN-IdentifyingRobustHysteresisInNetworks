@@ -58,7 +58,7 @@ def QueryExperiment(database,gene,FP_OFF,FP_ON,savefilename=None,Log=LogToSTDOUT
       if query(rpi): count = count + 1
       if minute_passed(epoch):
         epoch = time.time()
-        Log('Queries 0 through ' + str(rpi) + ' completed (with ' + str(count) + ' matches so far).')
+        Log('Queries 0 through ' + str(rpi) + ' (out of ' + str(N) + 'total) completed (with ' + str(count) + ' matches so far).')
 
     # Save query results to file
     if savefilename:

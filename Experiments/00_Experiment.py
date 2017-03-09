@@ -10,4 +10,5 @@ savefilename="00_Experiment.json"
 gene = "X1"
 FP_OFF={"X1":0,"X2":0,"X3":0} 
 FP_ON={"X1":[1,3],"X2":[1,2],"X3":[1,1]} 
-QueryExperiment(dbfile, gene, FP_OFF, FP_ON, savefilename)
+database = DSGRN.Database(dbfile)
+QueryExperiment(database, gene, FP_OFF, FP_ON, savefilename)
