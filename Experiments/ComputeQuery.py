@@ -109,7 +109,7 @@ class ComputeResettableBistabilityQuery:
             def check(n):
                 if searchgraph.matching_label(n) != 'B':
                     return False
-                leaf_vertex = (n,len(patterngraph.vertices)-1) 
+                leaf_vertex = (n,len(self.patterngraph.vertices)-1) 
                 is_reachable = alignment_graph.reachable(root_vertex, leaf_vertex) 
                 return is_reachable
             self.memoization_cache[searchgraphstring] = any( check(n) for n in range(1,len(searchgraph.vertices)))
