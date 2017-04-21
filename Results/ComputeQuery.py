@@ -131,7 +131,7 @@ if __name__ == "__main__":
       if (rpi - starting_rpi) % 10000 == 0:
         DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
     with open(hysteresis_output_file, 'w') as outfile:
-      outfile.write('\n'.join([str(rpi) for rpi in hysteresis_query_result ]))
+      outfile.write('\n'.join([str(rpi) for rpi in hysteresis_query_result ] + '\n' ))
     with open(hysteresis_output_file + ".log", 'w') as outfile:
       outfile.write(str(time.time() - start_time) + '\n')
 
@@ -145,7 +145,7 @@ if __name__ == "__main__":
       if (rpi - starting_rpi) % 10000 == 0:
         DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
     with open(resettable_output_file, 'w') as outfile:
-      outfile.write('\n'.join([str(rpi) for rpi in resettable_query_result ]))
+      outfile.write('\n'.join([str(rpi) for rpi in resettable_query_result ] + '\n'))
     with open(resettable_output_file + ".log", 'w') as outfile:
       outfile.write(str(time.time() - start_time) + '\n')
 
