@@ -24,7 +24,7 @@ if __name__ == "__main__":
     Jmax = 2000 # maximum number of jobs to split into
     Kmin = 1000 # minimum number of reduced parameters per job
     K = max(Kmin, int(L/2000))  # number of reduced parameter indices per job
-    jobs = [ './QueryPaperShard.sh ' + network_specification_file + ' ' + str(i) + ' ' + str(min(i+K,L)) for i in range(0, L, K)]
+    jobs = [ 'qsub ./QueryPaperShard.sh ' + network_specification_file + ' ' + str(i) + ' ' + str(min(i+K,L)) for i in range(0, L, K)]
     print(jobs)
     for job in jobs:
         subprocess.call(job, shell=True)
