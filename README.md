@@ -9,33 +9,36 @@ This code repository is supplemental to the paper "From gene networks to their d
 
 ## Instructions
 
-The computations are quite lengthly and with hardware available in 2017 require approximately 4 months to complete on a single CPU. On the other hand they can be done in parallel on a cluster (which is the setting in which the results were computed)
+
+### Figure 4
 
 ```bash
-enqueue_all.sh YaoNetworks
-# Wait until all jobs are complete.
-```
-
-Once all jobs are complete:
-
-```bash
-collate_all.sh YaoNetworks > small_summary.txt
-python parse_collate.py small_summary.txt > small_summary.json
-python make_table.py small_summary.json
+cd Figure4
+./Compute.sh
+# Wait until jobs are finished.
+./Postprocess.sh
 ```
 
 ### Figure 5
 
 ```bash
-enqueue_all.sh networks
-# Wait until all jobs are complete.
+cd Figure4
+./Compute.sh
+# Wait until jobs are finished.
+./Postprocess.sh
 ```
 
-Once all jobs are complete:
+
+### Figure 6
 
 ```bash
-collate_all.sh networks > summary.txt
-python parse_collate.py summary.txt > summary.json
-python make_table.py summary.json
+cd Figure6
+./Compute.sh
+# Wait until jobs are finished.
+./Postprocess.sh
 ```
+
+## Notes
+
+The computations are quite lengthly and with hardware available in 2017 require approximately 4 months to complete on a single CPU. On the other hand they can be done in parallel on a cluster (which is the setting in which the results were computed)
 

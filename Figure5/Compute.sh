@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# optional parameter: leave blank for sequential operation
+#                      on cluster, give job submission command (e.g. qsub)
+
 # Start jobs for Figure 5
 python Query/Enqueue.py networks/network_7 S E2F E2F_Rb $1
 python Query/Enqueue.py networks/network_2a7 S E2F E2F_Rb $1

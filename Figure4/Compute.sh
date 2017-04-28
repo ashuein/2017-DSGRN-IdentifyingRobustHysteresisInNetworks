@@ -1,4 +1,6 @@
 #!/bin/bash
+# optional parameter: leave blank for sequential operation
+#                      on cluster, give job submission command (e.g. qsub)
 
 ## Enqueue 49 networks for Figure 4 computations.
 

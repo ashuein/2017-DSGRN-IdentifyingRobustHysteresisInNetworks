@@ -1,3 +1,5 @@
+#!/bin/bash
+
 for file in `ls -I '*.*' $1`; do
 
   echo "Network:"
