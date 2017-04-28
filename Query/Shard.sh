@@ -16,6 +16,5 @@
 
 A=$1
 B=`basename $2`
-mkdir -p ${A}/computations
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 python ${DIR}/ComputeQuery.py $2 ${A}/${B}_hysteresis_$3_$4.txt ${A}/${B}_resettable_$3_$4.txt $3 $4 $5 $6 $7
