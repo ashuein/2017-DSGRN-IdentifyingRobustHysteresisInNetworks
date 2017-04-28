@@ -1,0 +1,7 @@
+S : S
+Myc : S : E
+CycD : Myc : E
+CycE : (E2F)(~p27) : E
+E2F : (Myc + E2F)(~E2F_Rb) : E
+E2F_Rb : (E2F)(~CycD)(~CycE) : E
+p27 : (E2F)(~CycD)(~CycE) : E
