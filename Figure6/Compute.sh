@@ -10,4 +10,6 @@
 # Command Line Arguments:
 #   Argument 1 (optional): job submission command (e.g. qsub). Can be left blank.
 
-python ../Query/Enqueue.py networks/network_7p27 S E2F E2F_Rb $1
+mkdir -p computations
+
+python ../Query/Enqueue.py computations networks/network_7p27 S E2F E2F_Rb $1

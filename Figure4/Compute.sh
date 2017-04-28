@@ -12,6 +12,8 @@
 # Command Line Arguments:
 #   Argument 1 (optional): job submission command (e.g. qsub). Can be left blank.
 
+mkdir -p computations
+
 for i in 0{0..9} {10..48}; do
-  python ../Query/Enqueue.py networks/network${i}.txt S EE Rp $1
+  python ../Query/Enqueue.py computations networks/network${i}.txt S EE Rp $1
 done

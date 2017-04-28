@@ -11,12 +11,14 @@
 # Command Line Arguments:
 #   Argument 1 (optional): job submission command (e.g. qsub). Can be left blank.
 
-python ../Query/Enqueue.py networks/network_7 S E2F E2F_Rb $1
-python ../Query/Enqueue.py networks/network_2a7 S E2F E2F_Rb $1
-python ../Query/Enqueue.py networks/network_2b7 S E2F E2F_Rb $1
-python ../Query/Enqueue.py networks/network_2a2b7 S E2F E2F_Rb $1
-python ../Query/Enqueue.py networks/network_8 S E2F E2F_Rb $1
-python ../Query/Enqueue.py networks/network_2a8 S E2F E2F_Rb $1
-python ../Query/Enqueue.py networks/network_2b8 S E2F E2F_Rb $1
-python ../Query/Enqueue.py networks/network_2a2b8 S E2F E2F_Rb $1
-python ../Query/Enqueue.py networks/network_yeaststart S SBF SBF_Whi5 $1
+mkdir -p computations
+
+python ../Query/Enqueue.py computations networks/network_7 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2a7 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2b7 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2a2b7 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_8 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2a8 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2b8 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2a2b8 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_yeaststart S SBF SBF_Whi5 $1
