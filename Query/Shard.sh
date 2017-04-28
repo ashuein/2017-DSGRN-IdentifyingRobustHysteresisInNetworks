@@ -6,15 +6,15 @@
 #$ -S /bin/bash
 #$ -pe orte 1
 
-# $1 output_folder
-# $2 network_specification_file
-# $3 starting_rpi
-# $4 ending_rpi
-# $5 gene (name) on which to do factor graph query
-# $6 gene (name) which is on when in proliferative FP and off in quiescent FP
-# $7 gene (name) which is on when in quiescent FP and off in proliferative FP
+# $1 Python script to run
+# $2 output_folder
+# $3 network_specification_file
+# $4 starting_rpi
+# $5 ending_rpi
+# $6 gene (name) on which to do factor graph query
+# $7 gene (name) which is on when in proliferative FP and off in quiescent FP
+# $8 gene (name) which is on when in quiescent FP and off in proliferative FP
 
-A=$1
-B=`basename $2`
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-python ${DIR}/ComputeQuery.py $2 ${A}/${B}_hysteresis_$3_$4.txt ${A}/${B}_resettable_$3_$4.txt $3 $4 $5 $6 $7
+A=$2
+B=`basename $3`
+python $1 $3 ${A}/${B}_hysteresis_$4_$5.txt ${A}/${B}_resettable_$4_$5.txt $4 $5 $6 $7 $8

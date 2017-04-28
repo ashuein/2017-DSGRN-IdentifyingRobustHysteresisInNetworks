@@ -33,7 +33,8 @@ if __name__ == "__main__":
     Kmin = 10000 # minimum number of reduced parameters per job
     K = max(Kmin, int(L/2000))  # number of reduced parameter indices per job
     shard_script = str(os.path.dirname(os.path.realpath(__file__))) + "/Shard.sh"
-    jobs = [ (command + ' ' + shard_script + ' ' + output_folder + ' ' + network_specification_file + ' ' + str(i) + ' ' + str(min(i+K,L)) + ' ' + S + ' ' + P + ' ' + Q) for i in range(0, L, K) ]
+    query_script = str(os.path.dirname(os.path.realpath(__file__))) + "/ComputeQuery.py"
+    jobs = [ (command + ' ' + shard_script + ' ' + query_script + ' ' + output_folder + ' ' + network_specification_file + ' ' + str(i) + ' ' + str(min(i+K,L)) + ' ' + S + ' ' + P + ' ' + Q) for i in range(0, L, K) ]
     print(jobs)
     for job in jobs:
         subprocess.call(job, shell=True)
