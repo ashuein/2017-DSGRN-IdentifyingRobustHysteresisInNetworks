@@ -25,7 +25,7 @@ cd Figure4
 ### Figure 5
 
 ```bash
-cd Figure4
+cd Figure5
 ./Compute.sh
 # Wait until jobs are finished.
 ./Postprocess.sh
