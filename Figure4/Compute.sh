@@ -1,9 +1,17 @@
 #!/bin/bash
-# optional parameter: leave blank for sequential operation
-#                      on cluster, give job submission command (e.g. qsub)
 
-## Enqueue 49 networks for Figure 4 computations.
+# Compute.sh
+# Shaun Harker
+# 2017-04-28
+# MIT LICENSE
+
+# Overview:
+#   Compute data for Figure 4.
+#   Enqueues 49 networks.
+
+# Command Line Arguments:
+#   Argument 1 (optional): job submission command (e.g. qsub). Can be left blank.
 
 for i in 0{0..9} {10..48}; do
-  python Query/Enqueue.py YaoNetworks/network${i}.txt S EE Rp $1
+  python ../Query/Enqueue.py networks/network${i}.txt S EE Rp $1
 done

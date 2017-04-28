@@ -1,5 +1,7 @@
 # 2017-DSGRN-GeneNetworksToDynamicPhenotypes
 
+Shaun Harker and Bree Cummins
+
 ## Overview 
 
 This code repository is supplemental to the paper "From gene networks to their dynamic phenotypes" by Bree Cummins, Tomas Gedeon, Shaun Harker, and Konstantin Mischaikow. It provides instructions for reproducing the computational results presented therein.
@@ -9,6 +11,7 @@ This code repository is supplemental to the paper "From gene networks to their d
 
 ## Instructions
 
+(Note: for cluster users, there is a slight change to these instructions, see below.)
 
 ### Figure 4
 
@@ -28,7 +31,6 @@ cd Figure4
 ./Postprocess.sh
 ```
 
-
 ### Figure 6
 
 ```bash
@@ -38,7 +40,13 @@ cd Figure6
 ./Postprocess.sh
 ```
 
-## Notes
+## Notes on HPC Computing Clusters
 
-The computations are quite lengthly and with hardware available in 2017 require approximately 4 months to complete on a single CPU. On the other hand they can be done in parallel on a cluster (which is the setting in which the results were computed)
+The computations are quite lengthly and with hardware available in 2017 require approximately 4 months to complete on a single CPU. On the other hand they can be done in parallel on a cluster (which is the setting in which the results were computed). To utilize a cluster it may be necessary to create a submission script. By default an SGE (Sun Grid Engine) script is available (see ./Query/Shard.sh). To utilize it, instead of typing `./Compute.sh` in the above instruction, type
+
+```bash
+./Compute.sh qsub
+```
+
+which instructs the code to use the `qsub` command to submit jobs to the cluster queue. If there is a different submission script name, then substitute the appropriate command for qsub, and tweak the submission script `./Query/Shard.sh` as necessary.
 

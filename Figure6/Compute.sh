@@ -1,7 +1,13 @@
 #!/bin/bash
+# Compute.sh
+# Shaun Harker
+# 2017-04-28
+# MIT LICENSE
 
-# optional parameter: leave blank for sequential operation
-#                      on cluster, give job submission command (e.g. qsub)
+# Overview:
+#   Compute data for Figure 6
 
-# Start jobs for Figure 6
-python Query/Enqueue.py networks/network_7p27 S E2F E2F_Rb $1
+# Command Line Arguments:
+#   Argument 1 (optional): job submission command (e.g. qsub). Can be left blank.
+
+python ../Query/Enqueue.py networks/network_7p27 S E2F E2F_Rb $1

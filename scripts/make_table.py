@@ -1,3 +1,13 @@
+# make_table.py
+# Shaun Harker
+# 2017-04-28
+# MIT LICENSE
+
+# Overview:
+#   Read the summary.json file and produce a markdown table from it
+
+# Command Line Arguments:
+#   Argument 1: name of summary.json file. 
 
 import json
 

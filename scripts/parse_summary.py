@@ -1,3 +1,15 @@
+# parse_summary.py
+# Shaun Harker
+# 2017-04-28
+# MIT LICENSE
+
+# Overview:
+#   Read the summary.txt file and produce a json file from it
+# Command Line Arguments:
+#   Argument 1: name of summary.txt file. 
+
+# Example summary.txt file:
+
 # Network:
 # network_2a2b8
 # Number of reduced parameter indices = 
