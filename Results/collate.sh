@@ -1,10 +1,10 @@
 #!/bin/bash
 
-rm $1_hysteresis.txt
-rm $1_hysteresis.log
+rm -f $1_hysteresis.txt
+rm -f $1_hysteresis.log
 
-rm $1_resettable.txt
-rm $1_resettable.log
+rm -f $1_resettable.txt
+rm -f $1_resettable.log
 
 cat $1_hysteresis*.txt > $1_hysteresis.txt
 cat $1_hysteresis*.log > $1_hysteresis.log

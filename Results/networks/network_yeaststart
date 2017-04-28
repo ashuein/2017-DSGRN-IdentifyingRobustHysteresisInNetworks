@@ -1,5 +1,0 @@
-S : S  
-Cln3 : S : E 
-E2F_Rb : (E2F)(~Cln2)(~Cln3) : E
-E2F : (E2F)(~E2F_Rb) : E
-Cln2 : E2F : E
