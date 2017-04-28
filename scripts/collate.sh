@@ -27,8 +27,8 @@ cat $2/$1_hysteresis*.log > $3/$1_hysteresis.log
 cat $2/$1_resettable*.txt > $3/$1_resettable.txt
 cat $2/$1_resettable*.log > $3/$1_resettable.log
 
-echo "Time to compute hysteresis query (in seconds):"
-awk '{ sum += $1 } END { print sum }' $3/$1_hysteresis.log > $3/$1_hysteresis.log
+#echo "Time to compute hysteresis query (in seconds):"
+awk '{ sum += $1 } END { print sum }' $3/$1_hysteresis.log > $3/$1_hysteresis.time
 
-echo "Time to compute resettable bistability query (in seconds):"
-awk '{ sum += $1 } END { print sum }' $3/$1_resettable.log > $3/$1_resettable.log
+#echo "Time to compute resettable bistability query (in seconds):"
+awk '{ sum += $1 } END { print sum }' $3/$1_resettable.log > $3/$1_resettable.time

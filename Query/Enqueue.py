@@ -7,7 +7,7 @@
 
 import subprocess
 import DSGRN
-import sys
+import sys, os
 
 if __name__ == "__main__":
     if len(sys.argv) < 6:
@@ -30,9 +30,10 @@ if __name__ == "__main__":
     M = len(parametergraph.factorgraph(S_index))
     L = N / M  # number of reduced parameter index
     Jmax = 2000 # maximum number of jobs to split into
-    Kmin = 1000 # minimum number of reduced parameters per job
+    Kmin = 10000 # minimum number of reduced parameters per job
     K = max(Kmin, int(L/2000))  # number of reduced parameter indices per job
-    jobs = [ (command + ' ./Shard.sh ' + output_folder + ' ' + network_specification_file + ' ' + str(i) + ' ' + str(min(i+K,L)) + ' ' + S + ' ' + P + ' ' + Q) for i in range(0, L, K) ]
+    shard_script = str(os.path.dirname(os.path.realpath(__file__))) + "/Shard.sh"
+    jobs = [ (command + ' ' + shard_script + ' ' + output_folder + ' ' + network_specification_file + ' ' + str(i) + ' ' + str(min(i+K,L)) + ' ' + S + ' ' + P + ' ' + Q) for i in range(0, L, K) ]
     print(jobs)
     for job in jobs:
         subprocess.call(job, shell=True)

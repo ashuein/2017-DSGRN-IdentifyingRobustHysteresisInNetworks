@@ -13,22 +13,25 @@
 #   Argument 1: folder containing network files
 #   Argument 2: folder containing computational results
 #   Argument 3: folder to store collated results in
+#   Argument 4: gene name for query
 
-for file in `ls -I '*.*' $1`; do
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+for file in `ls $1`; do
 
   echo "Network:"
   echo $file
 
   echo "Number of reduced parameter indices = "
-  python NumReducedParameterIndex.py $1/$file
+  python ${DIR}/NumReducedParameterIndex.py $1/$file $4
 
-  ./collate.sh $file $2 $3
+  ${DIR}/collate.sh $file $2 $3
 
   echo "Time to compute hysteresis query (in seconds):"
-  cat $3/${file}_hysteresis.log
+  cat $3/${file}_hysteresis.time
 
   echo "Time to compute resettable bistability query (in seconds):"
-  cat $3/${file}_resettable.log
+  cat $3/${file}_resettable.time
 
   echo "Number of hysteresis matches = "
   echo `wc -w "$3/${file}_hysteresis.txt"`
