@@ -6,14 +6,19 @@
 # MIT LICENSE
 
 # Overview:
-#   Compute data for Figure 4.
-#   Enqueues 49 networks.
+#   Compute data for Figure 4
 
 # Command Line Arguments:
 #   Argument 1 (optional): job submission command (e.g. qsub). Can be left blank.
 
 mkdir -p computations
 
-for i in 0{0..9} {10..48}; do
-  python ../Query/Enqueue.py computations networks/network${i} S EE Rp $1
-done
+python ../Query/Enqueue.py computations networks/network_7 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2a7 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2b7 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2a2b7 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_8 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2a8 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2b8 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_2a2b8 S E2F E2F_Rb $1
+python ../Query/Enqueue.py computations networks/network_yeaststart S SBF SBF_Whi5 $1
