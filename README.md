@@ -13,7 +13,7 @@ This code repository is supplemental to the paper "From gene networks to their d
 
 (Note: for cluster users, there is a slight change to these instructions, see below.)
 
-### Figure 4
+### Figure 3
 
 ```bash
 cd Figure4
@@ -22,19 +22,10 @@ cd Figure4
 ./Postprocess.sh
 ```
 
-### Figure 5
+### Figure 4
 
 ```bash
 cd Figure5
-./Compute.sh
-# Wait until jobs are finished.
-./Postprocess.sh
-```
-
-### Figure 6
-
-```bash
-cd Figure6
 ./Compute.sh
 # Wait until jobs are finished.
 ./Postprocess.sh
