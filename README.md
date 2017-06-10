@@ -1,5 +1,7 @@
 # 2017-DSGRN-GeneNetworksToDynamicPhenotypes
 
+[![DOI](https://zenodo.org/badge/80869262.svg)](https://zenodo.org/badge/latestdoi/80869262)
+
 Shaun Harker and Bree Cummins
 
 ## Overview 
