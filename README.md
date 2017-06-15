@@ -1,4 +1,4 @@
-# 2017-DSGRN-GeneNetworksToDynamicPhenotypes
+# 2017-DSGRN-IdentifyingRobustHysteresisInNetworks
 
 [![DOI](https://zenodo.org/badge/80869262.svg)](https://zenodo.org/badge/latestdoi/80869262)
 
@@ -6,7 +6,7 @@ Shaun Harker and Bree Cummins
 
 ## Overview 
 
-This code repository is supplemental to the paper "From gene networks to their dynamic phenotypes" by Bree Cummins, Tomas Gedeon, Shaun Harker, and Konstantin Mischaikow. It provides instructions for reproducing the computational results presented therein.
+This code repository is supplemental to the paper "Identifying robust hysteresis in networks" by Bree Cummins, Tomas Gedeon, Shaun Harker, and Konstantin Mischaikow. It provides instructions for reproducing the computational results presented therein.
 
 ## Installation
 
