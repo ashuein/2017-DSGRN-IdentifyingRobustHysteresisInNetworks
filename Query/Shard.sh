@@ -6,6 +6,14 @@
 #$ -S /bin/bash
 #$ -pe orte 1
 
+#Active comments for SLURM
+#SBATCH -n 1                 # One task
+#SBATCH -c 1                 # One cpu per task
+#SBATCH -N 1                 # Minimum one node
+#SBATCH -t 1-00:00           # Runtime in D-HH:MM
+#SBATCH -p main              # Partition to submit to
+#SBATCH --mem-per-cpu=4000   # Memory pool for all cores (see also --mem-per-cpu)
+
 # $1 Python script to run
 # $2 output_folder
 # $3 network_specification_file
