@@ -13,8 +13,7 @@
 # $5 ending_rpi
 # $6 gene (name) on which to do factor graph query
 # $7 gene (name) which is on when in proliferative FP and off in quiescent FP
-# $8 gene (name) which is on when in quiescent FP and off in proliferative FP
 
 A=$2
 B=`basename $3`
-python $1 $3 ${A}/${B}_hysteresis_$4_$5.txt ${A}/${B}_resettable_$4_$5.txt $4 $5 $6 $7 $8
+python $1 $3 ${A}/${B}_hysteresis_$4_$5.txt ${A}/${B}_resettable_$4_$5.txt $4 $5 $6 $7
