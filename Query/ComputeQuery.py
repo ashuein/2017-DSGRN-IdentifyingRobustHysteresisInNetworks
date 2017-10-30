@@ -12,10 +12,9 @@ import time
 import sys
 
 class PQNetworkAnalyzer:
-    def __init__(self, network, P, Q):
+    def __init__(self, network, P):
         self.network = network
         self.P_index = network.index(P)
-        self.Q_index = network.index(Q)
         self.parametergraph = DSGRN.ParameterGraph(network)
 
     def AnalyzeParameter(self, parameterindex):
@@ -32,14 +31,14 @@ class PQNetworkAnalyzer:
     def is_quiescent_FP(self, annotation):
         if self.is_FP(annotation):
             digits = [int(s) for s in annotation.replace(",", "").split() if s.isdigit()]
-            if digits[self.P_index] == 0 and digits[self.Q_index] >= 1:
+            if digits[self.P_index] == 0:
                 return True
         return False
 
     def is_proliferative_FP(self, annotation):
         if self.is_FP(annotation):
             digits = [int(s) for s in annotation.replace(",", "").split() if s.isdigit()]
-            if digits[self.P_index] >= 1 and digits[self.Q_index] == 0:
+            if digits[self.P_index] >= 1:
                 return True
         return False
 
@@ -66,9 +65,9 @@ class PQNetworkAnalyzer:
         return self.AnalyzeMorseGraph(self.AnalyzeParameter(parameterindex))
 
 class ComputeHysteresisQuery:
-    def __init__(self, network, S, P, Q):
+    def __init__(self, network, S, P):
         self.network = network 
-        self.analyzer = PQNetworkAnalyzer(self.network, P, Q)
+        self.analyzer = PQNetworkAnalyzer(self.network, P)
         self.query = DSGRN.ComputeSingleGeneQuery(network,S,self.analyzer.Classify)
         self.patterngraph = DSGRN.Graph(set([0,1,2,3,4]), [(0,0),(1,1),(0,1),(1,0),(0,2),(1,2),(2,2),(2,3),(2,4),(3,3),(3,4),(4,4),(4,3)])
         self.patterngraph.matching_label = lambda v : { 0:'Q', 1:'q', 2:'B', 3:'p', 4:'P' }[v]
@@ -88,9 +87,9 @@ class ComputeHysteresisQuery:
         return self.memoization_cache[searchgraphstring]
 
 class ComputeResettableBistabilityQuery:
-    def __init__(self, network, S, P, Q):
+    def __init__(self, network, S, P):
         self.network = network 
-        self.analyzer = PQNetworkAnalyzer(self.network, P, Q)
+        self.analyzer = PQNetworkAnalyzer(self.network, P)
         # label P, p, and O as disallowed "d"
         # label Q, q as allowed "a"
         # label B as terminal "t"
@@ -117,8 +116,8 @@ class ComputeResettableBistabilityQuery:
         return self.memoization_cache[searchgraphstring]
 
 if __name__ == "__main__":
-    if len(sys.argv) < 9:
-      print("./ComputeQuery network_specification_file.txt hysteresis_output_file.txt resettable_output_file.txt starting_rpi ending_rpi S_gene P_gene Q_gene")
+    if len(sys.argv) < 8:
+      print("./ComputeQuery network_specification_file.txt hysteresis_output_file.txt resettable_output_file.txt starting_rpi ending_rpi S_gene P_gene")
       exit(1)
     network_specification_file = str(sys.argv[1])
     hysteresis_output_file = str(sys.argv[2])
@@ -127,12 +126,11 @@ if __name__ == "__main__":
     ending_rpi = int(sys.argv[5])
     S = sys.argv[6]
     P = sys.argv[7]
-    Q = sys.argv[8]
 
     network = DSGRN.Network(network_specification_file)
     # Hysteresis Query
     start_time = time.time()
-    hysteresis_query = ComputeHysteresisQuery(network, S, P, Q)
+    hysteresis_query = ComputeHysteresisQuery(network, S, P)
     hysteresis_query_result = []
     for rpi in range(starting_rpi, ending_rpi):
       if hysteresis_query(rpi):
@@ -146,7 +144,7 @@ if __name__ == "__main__":
 
     # Resettable Bistability Query
     start_time = time.time()
-    resettable_query = ComputeResettableBistabilityQuery(network, S, P, Q)
+    resettable_query = ComputeResettableBistabilityQuery(network, S, P)
     resettable_query_result = []
     for rpi in range(starting_rpi, ending_rpi):
       if resettable_query(rpi):

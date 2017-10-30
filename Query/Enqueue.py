@@ -10,18 +10,17 @@ import DSGRN
 import sys, os
 
 if __name__ == "__main__":
-    if len(sys.argv) < 6:
-        print("./Enqueue.py output_folder network_specification_file S_gene_name P_gene_name Q_gene_name [command]")
+    if len(sys.argv) < 5:
+        print("./Enqueue.py output_folder network_specification_file S_gene_name P_gene_name [command]")
         exit(1)
-    if len(sys.argv) == 7:
-        command = sys.argv[6]
+    if len(sys.argv) == 6:
+        command = sys.argv[5]
     else:
         command = ""
     output_folder = sys.argv[1]
     network_specification_file = sys.argv[2]
     S = sys.argv[3]
     P = sys.argv[4]
-    Q = sys.argv[5]
     network = DSGRN.Network(network_specification_file);
     print(network.graphviz())
     parametergraph = DSGRN.ParameterGraph(network)
@@ -34,7 +33,7 @@ if __name__ == "__main__":
     K = max(Kmin, int(L/2000))  # number of reduced parameter indices per job
     shard_script = str(os.path.dirname(os.path.realpath(__file__))) + "/Shard.sh"
     query_script = str(os.path.dirname(os.path.realpath(__file__))) + "/ComputeQuery.py"
-    jobs = [ (command + ' ' + shard_script + ' ' + query_script + ' ' + output_folder + ' ' + network_specification_file + ' ' + str(i) + ' ' + str(min(i+K,L)) + ' ' + S + ' ' + P + ' ' + Q) for i in range(0, L, K) ]
+    jobs = [ (command + ' ' + shard_script + ' ' + query_script + ' ' + output_folder + ' ' + network_specification_file + ' ' + str(i) + ' ' + str(min(i+K,L)) + ' ' + S + ' ' + P) for i in range(0, L, K) ]
     print(jobs)
     for job in jobs:
         subprocess.call(job, shell=True)

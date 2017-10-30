@@ -1,6 +1,6 @@
 S : S
-Myc : S : E
+Myc : E2F + S : E
 CycD : Myc + E2F : E
 CycE : E2F : E
-E2F : (Myc + E2F)(~Rb) : E
+E2F : (E2F)(~Rb) : E
 Rb : (E2F)(~CycD)(~CycE) : E
