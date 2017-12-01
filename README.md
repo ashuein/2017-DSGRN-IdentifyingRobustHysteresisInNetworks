@@ -18,7 +18,7 @@ This code repository is supplemental to the paper "Identifying robust hysteresis
 ### Figure 3
 
 ```bash
-cd Figure4
+cd Figure3
 ./Compute.sh
 # Wait until jobs are finished.
 ./Postprocess.sh
@@ -27,7 +27,7 @@ cd Figure4
 ### Figure 4
 
 ```bash
-cd Figure5
+cd Figure4
 ./Compute.sh
 # Wait until jobs are finished.
 ./Postprocess.sh
