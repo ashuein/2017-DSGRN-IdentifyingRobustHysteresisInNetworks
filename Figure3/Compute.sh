@@ -15,5 +15,5 @@
 mkdir -p computations
 
 for i in 0{0..9} {10..48}; do
-  python ../Query/Enqueue.py computations networks/network${i} S EE $1
+  python ../Query/Enqueue.py computations networks/network${i} MD EE $1
 done

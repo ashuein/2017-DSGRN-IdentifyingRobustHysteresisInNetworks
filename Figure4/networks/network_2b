@@ -1,5 +1,4 @@
-S : S
-Myc : S : E
+Myc : : E
 CycD : Myc + E2F : E
 CycE : E2F : E
 E2F : (E2F)(~Rb) : E
