@@ -159,7 +159,7 @@ def ComputeQueryOldApproach():
 
 def topological_sort(graph):
     """
-    Return list of vertices in topologically sorted order
+    Return list of vertices in (reverse) topologically sorted order
     """
     result = []
     explored = set()
@@ -168,25 +168,25 @@ def topological_sort(graph):
         (v,i) = dfs_stack.pop()
         if (v,i) in explored: continue
         explored.add((v,i))
-        if i == 0:
+        if i == 0: # preordering visit
             dfs_stack.extend([(v,1)] + [ (u,0) for u in graph.adjacencies(v) ])
-        elif i == 1:
+        elif i == 1: # postordering visit
             result.append(v)
     return result
 
-def count_paths(graph, source = None, target = None, filter_vertices = None):
+def count_paths(graph, source = None, target = None, allowed = None):
     """
-    returns card{ (u,v) : source(u) & target(v) & there is a path from u to v}
+    returns card{ (u,v) : source(u) & target(v) & there is an allowed path from u to v}
     """
     if source == None: source = lambda v : True
     if target == None: target = lambda v : True
-    if filter_vertices == None: filter_vertices = lambda x : True
+    if allowed == None: filter_vertices = lambda x : True
     ts = topological_sort(graph)
     paths = {}
     result = 0
     for v in ts:
-        if not filter_vertices(v): continue
-        paths[v] = sum([ paths[u] for u in graph.adjacencies(v) if filter_vertices(u)]) + ( 1 if target(v) else 0)
+        if not allowed(v): continue
+        paths[v] = sum([ paths[u] for u in graph.adjacencies(v) if allowed(u)]) + ( 1 if target(v) else 0)
         if source(v): result += paths[v]
     return result
 
@@ -219,9 +219,10 @@ class ComputeResettableBistabilityQueryPathApproach:
         self.network = network 
         self.analyzer = PQNetworkAnalyzer(self.network, P)
         # label P, p, and O as disallowed "d"
-        # label Q, q as allowed "a"
-        # label B as terminal "t"
-        label_map = { 'P':'d', 'p':'d', 'O':'d', 'Q':'a', 'q':'a', 'B': 't'}
+        # label Q as source "s"
+        # label q as allowed "a"
+        # label B as target "t"
+        label_map = { 'P':'d', 'p':'d', 'O':'d', 'Q':'s', 'q':'a', 'B': 't'}
         self.labeller = lambda pi : label_map[self.analyzer.Classify(pi)]
         self.query = DSGRN.ComputeSingleGeneQuery(network,S,self.labeller)
         self.memoization_cache = {}
@@ -235,9 +236,9 @@ class ComputeResettableBistabilityQueryPathApproach:
         searchgraph = self.query(reduced_parameter_index)
         searchgraphstring = ''.join([ searchgraph.matching_label(v) for v in searchgraph.vertices ])
         if searchgraphstring not in self.memoization_cache:
-            source = lambda v : searchgraph.matching_label(v) == 'a'
+            source = lambda v : searchgraph.matching_label(v) == 's'
             target = lambda v : searchgraph.matching_label(v) == 't'
-            filter_vertices = lambda v : source(v) | target(v)
+            filter_vertices = lambda v : searchgraph.matching_label(v) != 'd'
             num_paths = count_paths(searchgraph, source, target, filter_vertices) 
             self.memoization_cache[searchgraphstring] = num_paths
         return self.memoization_cache[searchgraphstring]

@@ -30,8 +30,8 @@ if __name__ == "__main__":
   X = json.loads(data)
 
   csv_file_string = "network,percent_hysteresis,percent_resettable_bistability,time\n"
-  md_file_string = " | network | Percent hysteresis match | Percent resettable bistability match | time |\n"
-  md_file_string +=" | ------- | ------------------------ | ------------------------------------ | ---- |\n"
+  md_file_string = " | network | figure | Percent hysteresis match | Percent resettable bistability match | time |\n"
+  md_file_string +=" | ------- | ------ | ------------------------ | ------------------------------------ | ---- |\n"
   for key in sorted(X):
     rpi = float(X[key]["reduced_param_indices"])
     h_match = float(X[key]["hysteresis_matches"])
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     h_time = float(X[key]["time_to_compute_hysteresis"])
     r_time = float(X[key]["time_to_compute_resettable"])
     csv_file_string += key + "," + str(100.0 *h_match / h_param) + "," + str(100.0 * r_match / r_param) + "," + str(h_time + r_time) + "\n"
-    md_file_string += key + "|" + str(100.0 *h_match / h_param) + "% | " + str(100.0 * r_match / r_param) + "% | " + str(h_time + r_time) + " |\n"
+    md_file_string += key + "| ![](./" + key + ".gv.png) |" + str(100.0 *h_match / h_param) + "% | " + str(100.0 * r_match / r_param) + "% | " + str(h_time + r_time) + " |\n"
 
   with open(csv_filename, 'w') as outfile:
     outfile.write(csv_file_string)

@@ -1,4 +1,8 @@
 QueryPaperShard*
 networks/*
 *.pyc
+Shard.*
+*.gv
+*.png
+*.json
 
