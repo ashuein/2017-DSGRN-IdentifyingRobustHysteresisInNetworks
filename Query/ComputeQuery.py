@@ -74,7 +74,6 @@ class ComputeHysteresisQuery:
         self.matching_relation = lambda label1, label2 : label1 == label2
         self.memoization_cache = {}
 
-
     def __call__(self,reduced_parameter_index):
         searchgraph = self.query(reduced_parameter_index)
         searchgraphstring = ''.join([ searchgraph.matching_label(v) for v in searchgraph.vertices ])
@@ -115,7 +114,7 @@ class ComputeResettableBistabilityQuery:
             self.memoization_cache[searchgraphstring] = searchgraph.predicate_reachable(0, allowed, terminal) 
         return self.memoization_cache[searchgraphstring]
 
-if __name__ == "__main__":
+def ComputeQueryOldApproach():
     if len(sys.argv) < 8:
       print("./ComputeQuery network_specification_file.txt hysteresis_output_file.txt resettable_output_file.txt starting_rpi ending_rpi S_gene P_gene")
       exit(1)
@@ -157,3 +156,135 @@ if __name__ == "__main__":
       outfile.write(str(time.time() - start_time) + '\n')
 
     exit(0)
+
+def topological_sort(graph):
+    """
+    Return list of vertices in topologically sorted order
+    """
+    result = []
+    dfs_stack = [ (v,0) for v in graph.vertices()]
+    while dfs_stack:
+        (v,i) = dfs_stack.pop()
+        if (v,i) in explored: continue
+        explored.add((v,i))
+        if i == 0:
+            dfs_stack.extend([(v,1)] + [ (u,0) for u in graph.adjacencies(v) ])
+        elif i == 1:
+            result.append(v)
+    return result
+
+def count_paths(graph, source = None, target = None, filter_vertices = None):
+    """
+    returns card{ (u,v) : source(u) & target(v) & there is a path from u to v}
+    """
+    if source == None: source = lambda v : True
+    if target == None: target = lambda v : True
+    if filter_vertices == None: filter_vertices = lambda x : True
+    ts = topological_sort(graph)
+    paths = {}
+    result = 0
+    for v in ts:
+        if not filter_vertices(v): continue
+        paths[v] = sum([ paths[u] for u in graph.adjacencies(v) if filter_vertices(u)]) + ( 1 if target(v) else 0)
+        if source(v): result += paths[v]
+    return result
+
+class ComputeHysteresisQueryPathApproach:
+    def __init__(self, network, S, P):
+        self.network = network 
+        self.analyzer = PQNetworkAnalyzer(self.network, P)
+        self.query = DSGRN.ComputeSingleGeneQuery(network,S,self.analyzer.Classify)
+        self.patterngraph = DSGRN.Graph(set([0,1,2,3,4]), [(0,0),(1,1),(0,1),(1,0),(0,2),(1,2),(2,2),(2,3),(2,4),(3,3),(3,4),(4,4),(4,3)])
+        self.patterngraph.matching_label = lambda v : { 0:'Q', 1:'q', 2:'B', 3:'p', 4:'P' }[v]
+        self.matching_relation = lambda label1, label2 : label1 == label2
+        self.memoization_cache = {}
+
+    def __call__(self,reduced_parameter_index):
+        searchgraph = self.query(reduced_parameter_index)
+        searchgraphstring = ''.join([ searchgraph.matching_label(v) for v in searchgraph.vertices ])
+        if searchgraphstring not in self.memoization_cache:
+            alignment_graph = DSGRN.AlignmentGraph(searchgraph, self.patterngraph, self.matching_relation)
+            source = lambda x: x[1] == 0
+            target = lambda x: x[1] == 4
+            num_paths = count_paths(alignment_graph, source, target)
+            self.memoization_cache[searchgraphstring] = num_paths
+        return self.memoization_cache[searchgraphstring]
+
+    def num_paths(self):
+        return count_paths(self.query(0))
+
+class ComputeResettableBistabilityQueryPathApproach:
+    def __init__(self, network, S, P):
+        self.network = network 
+        self.analyzer = PQNetworkAnalyzer(self.network, P)
+        # label P, p, and O as disallowed "d"
+        # label Q, q as allowed "a"
+        # label B as terminal "t"
+        label_map = { 'P':'d', 'p':'d', 'O':'d', 'Q':'a', 'q':'a', 'B': 't'}
+        self.labeller = lambda pi : label_map[self.analyzer.Classify(pi)]
+        self.query = DSGRN.ComputeSingleGeneQuery(network,S,self.labeller)
+        self.memoization_cache = {}
+        
+    def __call__(self, reduced_parameter_index):
+        """
+        Graph search for factor graph correspond to reduced_parameter_index.
+        Start at Q, Pass through only q and Q until reach B.
+        Count how paths this happens for.
+        """
+        searchgraph = self.query(reduced_parameter_index)
+        searchgraphstring = ''.join([ searchgraph.matching_label(v) for v in searchgraph.vertices ])
+        if searchgraphstring not in self.memoization_cache:
+            source = lambda v : searchgraph.matching_label(v) == 'a'
+            target = lambda v : searchgraph.matching_label(v) == 't'
+            filter_vertices = lambda v : source(v) | target(v)
+            num_paths = count_paths(searchgraph, source, target, filter_vertices) 
+            self.memoization_cache[searchgraphstring] = num_paths
+        return self.memoization_cache[searchgraphstring]
+
+    def num_paths(self):
+        return count_paths(self.query(0))
+
+if __name__ == "__main__":
+    if len(sys.argv) < 8:
+      print("./ComputeQuery network_specification_file.txt hysteresis_output_file.txt resettable_output_file.txt starting_rpi ending_rpi S_gene P_gene")
+      exit(1)
+    network_specification_file = str(sys.argv[1])
+    hysteresis_output_file = str(sys.argv[2])
+    resettable_output_file = str(sys.argv[3])
+    starting_rpi = int(sys.argv[4])
+    ending_rpi = int(sys.argv[5])
+    S = sys.argv[6]
+    P = sys.argv[7]
+
+    network = DSGRN.Network(network_specification_file)
+    # Hysteresis Query
+    start_time = time.time()
+    hysteresis_query = ComputeHysteresisQueryPathApproach(network, S, P)
+    hysteresis_query_result = 0
+    for rpi in range(starting_rpi, ending_rpi):
+      hysteresis_query_result += hysteresis_query(rpi)
+      if (rpi - starting_rpi) % 10000 == 0:
+        DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
+    normalization = (ending_rpi - starting_rpi)*hysteresis_query.num_paths() 
+    with open(hysteresis_output_file, 'w') as outfile:
+      outfile.write(str(hysteresis_query_result) + " " + str(normalization) + "\n")
+    with open(hysteresis_output_file + ".log", 'w') as outfile:
+      outfile.write(str(time.time() - start_time) + '\n')
+
+    # Resettable Bistability Query
+    start_time = time.time()
+    resettable_query = ComputeResettableBistabilityQueryPathApproach(network, S, P)
+    resettable_query_result = 0
+    for rpi in range(starting_rpi, ending_rpi):
+      resettable_query_result += resettable_query(rpi)
+      if (rpi - starting_rpi) % 10000 == 0:
+        DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
+    normalization = (ending_rpi - starting_rpi)*resettable_query.num_paths() 
+    with open(resettable_output_file, 'w') as outfile:
+      outfile.write(str(resettable_query_result) + " " + str(normalization) + "\n")
+    with open(resettable_output_file + ".log", 'w') as outfile:
+      outfile.write(str(time.time() - start_time) + '\n')
+
+    exit(0)
+    
+

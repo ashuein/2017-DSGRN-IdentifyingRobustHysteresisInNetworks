@@ -48,11 +48,13 @@ if __name__ == "__main__":
     if i > 0:
       s += ", "
     s += '"' + lines[6*i+0] + '" : { '
-    s += ' "reduced_param_indices" : ' + lines[6*i+1] + ', '
-    s += ' "time_to_compute_hysteresis" : ' + lines[6*i+2] + ', '
-    s += ' "time_to_compute_resettable" : ' + lines[6*i+3] + ', '
-    s += ' "hysteresis_matches" : ' + lines[6*i+4] + ', '
-    s += ' "resettable_matches" : ' + lines[6*i+5] + '}'
+    s += ' "reduced_param_indices" : ' + lines[6*i+1][0] + ', '
+    s += ' "time_to_compute_hysteresis" : ' + lines[6*i+2][0] + ', '
+    s += ' "time_to_compute_resettable" : ' + lines[6*i+3][0] + ', '
+    s += ' "hysteresis_matches" : ' + lines[6*i+4][0] + ', '
+    s += ' "hysteresis_params" : ' + lines[6*i+4][1] + ', '
+    s += ' "resettable_matches" : ' + lines[6*i+5][0] + ', '
+    s += ' "resettable_params" : ' + lines[6*i+5][1] + '}'
   s += '}'
 
   print(s)

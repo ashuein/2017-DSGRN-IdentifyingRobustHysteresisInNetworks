@@ -32,3 +32,6 @@ awk '{ sum += $1 } END { print sum }' $3/$1_hysteresis.log > $3/$1_hysteresis.ti
 
 #echo "Time to compute resettable bistability query (in seconds):"
 awk '{ sum += $1 } END { print sum }' $3/$1_resettable.log > $3/$1_resettable.time
+
+awk '{ sum += $1; total += $2 } END { print sum " " total }' $3/$1_hysteresis.txt > $3/$1_hysteresis.result
+awk '{ sum += $1; total += $2 } END { print sum " " total }' $3/$1_resettable.txt > $3/$1_resettable.result
