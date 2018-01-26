@@ -180,7 +180,7 @@ def count_paths(graph, source = None, target = None, allowed = None):
     """
     if source == None: source = lambda v : True
     if target == None: target = lambda v : True
-    if allowed == None: filter_vertices = lambda x : True
+    if allowed == None: allowed = lambda x : True
     ts = topological_sort(graph)
     paths = {}
     result = 0
@@ -238,8 +238,8 @@ class ComputeResettableBistabilityQueryPathApproach:
         if searchgraphstring not in self.memoization_cache:
             source = lambda v : searchgraph.matching_label(v) == 's'
             target = lambda v : searchgraph.matching_label(v) == 't'
-            filter_vertices = lambda v : searchgraph.matching_label(v) != 'd'
-            num_paths = count_paths(searchgraph, source, target, filter_vertices) 
+            allowed = lambda v : searchgraph.matching_label(v) != 'd'
+            num_paths = count_paths(searchgraph, source, target, allowed) 
             self.memoization_cache[searchgraphstring] = num_paths
         return self.memoization_cache[searchgraphstring]
 
