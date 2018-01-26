@@ -34,11 +34,11 @@ for file in `ls $1`; do
   cat $3/${file}_resettable.time
 
   echo "Number of hysteresis matches = "
-  cat $3/${file}_hysteresis.results
+  cat $3/${file}_hysteresis.result
   #echo `wc -w "$3/${file}_hysteresis.txt"`
 
   echo "Number of resettable bistability matches = "
-  cat $3/${file}_resettable.results
+  cat $3/${file}_resettable.result
   #echo `wc -w "$3/${file}_resettable.txt"`
 
   echo " "

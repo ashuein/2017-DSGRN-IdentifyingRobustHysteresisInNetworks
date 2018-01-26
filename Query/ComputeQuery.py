@@ -162,6 +162,7 @@ def topological_sort(graph):
     Return list of vertices in topologically sorted order
     """
     result = []
+    explored = set()
     dfs_stack = [ (v,0) for v in graph.vertices]
     while dfs_stack:
         (v,i) = dfs_stack.pop()

@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
   lines = [ line for line in lines if line.strip() ]  # remove empty lines
   lines = [ line for i, line in enumerate(lines) if i%2 == 1 ] # odd lines
-  lines = [ line.split()[0] for line in lines ] # first entry in line
+  lines = [ line.split() for line in lines ]
 
   N = len(lines)/6
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
   for i in range(0,N):
     if i > 0:
       s += ", "
-    s += '"' + lines[6*i+0] + '" : { '
+    s += '"' + lines[6*i+0][0] + '" : { '
     s += ' "reduced_param_indices" : ' + lines[6*i+1][0] + ', '
     s += ' "time_to_compute_hysteresis" : ' + lines[6*i+2][0] + ', '
     s += ' "time_to_compute_resettable" : ' + lines[6*i+3][0] + ', '

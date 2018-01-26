@@ -6,5 +6,5 @@
 
 # Calls postprocess script for Figure 4.
 
-../scripts/Postprocess.sh ./networks ./computations ./results S
+../scripts/Postprocess.sh ./networks ./computations ./results Myc
  

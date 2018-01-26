@@ -35,9 +35,9 @@ if __name__ == "__main__":
   for key in sorted(X):
     rpi = float(X[key]["reduced_param_indices"])
     h_match = float(X[key]["hysteresis_matches"])
-    h_param = float(X[key]["hysteresis_param"])
+    h_param = float(X[key]["hysteresis_params"])
     r_match = float(X[key]["resettable_matches"])
-    r_param = float(X[key]["resettable_param"])
+    r_param = float(X[key]["resettable_params"])
     h_time = float(X[key]["time_to_compute_hysteresis"])
     r_time = float(X[key]["time_to_compute_resettable"])
     csv_file_string += key + "," + str(100.0 *h_match / h_param) + "," + str(100.0 * r_match / r_param) + "," + str(h_time + r_time) + "\n"
