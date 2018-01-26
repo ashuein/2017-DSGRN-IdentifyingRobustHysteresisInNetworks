@@ -13,6 +13,7 @@
 import sys
 import graphviz
 import os
+import DSGRN
 
 if __name__ == "__main__":
 
