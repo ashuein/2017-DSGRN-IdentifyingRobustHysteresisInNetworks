@@ -1,0 +1,3 @@
+Myc : (SBF)(~Cln2)
+SBF : (SBF)(~SBF_Whi5) : E
+Cln2 : SBF : E
