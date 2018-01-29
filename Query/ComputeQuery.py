@@ -214,32 +214,56 @@ class ComputeHysteresisQueryPathApproach:
     def num_paths(self):
         return count_paths(self.query(0))
 
+# class ComputeResettableBistabilityQueryPathApproach:
+#     def __init__(self, network, S, P):
+#         self.network = network 
+#         self.analyzer = PQNetworkAnalyzer(self.network, P)
+#         # label P, p, and O as disallowed "d"
+#         # label Q as source "s"
+#         # label q as allowed "a"
+#         # label B as target "t"
+#         label_map = { 'P':'d', 'p':'d', 'O':'d', 'Q':'s', 'q':'a', 'B': 't'}
+#         self.labeller = lambda pi : label_map[self.analyzer.Classify(pi)]
+#         self.query = DSGRN.ComputeSingleGeneQuery(network,S,self.labeller)
+#         self.memoization_cache = {}
+        
+#     def __call__(self, reduced_parameter_index):
+#         """
+#         Graph search for factor graph correspond to reduced_parameter_index.
+#         Start at Q, Pass through only q and Q until reach B.
+#         Count how paths this happens for.
+#         """
+#         searchgraph = self.query(reduced_parameter_index)
+#         searchgraphstring = ''.join([ searchgraph.matching_label(v) for v in searchgraph.vertices ])
+#         if searchgraphstring not in self.memoization_cache:
+#             source = lambda v : searchgraph.matching_label(v) == 's'
+#             target = lambda v : searchgraph.matching_label(v) == 't'
+#             allowed = lambda v : searchgraph.matching_label(v) != 'd'
+#             num_paths = count_paths(searchgraph, source, target, allowed) 
+#             self.memoization_cache[searchgraphstring] = num_paths
+#         return self.memoization_cache[searchgraphstring]
+
+#     def num_paths(self):
+#         return count_paths(self.query(0))
+
 class ComputeResettableBistabilityQueryPathApproach:
     def __init__(self, network, S, P):
         self.network = network 
         self.analyzer = PQNetworkAnalyzer(self.network, P)
-        # label P, p, and O as disallowed "d"
-        # label Q as source "s"
-        # label q as allowed "a"
-        # label B as target "t"
-        label_map = { 'P':'d', 'p':'d', 'O':'d', 'Q':'s', 'q':'a', 'B': 't'}
-        self.labeller = lambda pi : label_map[self.analyzer.Classify(pi)]
-        self.query = DSGRN.ComputeSingleGeneQuery(network,S,self.labeller)
+        self.query = DSGRN.ComputeSingleGeneQuery(network,S,self.analyzer.Classify)
+        self.patterngraph = DSGRN.Graph(set([0,1,2]), [(0,0),(1,1),(0,1),(1,0),(0,2),(1,2),(2,2)])
+        self.patterngraph.matching_label = lambda v : { 0:'Q', 1:'q', 2:'B'}[v]
+        self.matching_relation = lambda label1, label2 : label1 == label2
         self.memoization_cache = {}
-        
-    def __call__(self, reduced_parameter_index):
-        """
-        Graph search for factor graph correspond to reduced_parameter_index.
-        Start at Q, Pass through only q and Q until reach B.
-        Count how paths this happens for.
-        """
+
+    def __call__(self,reduced_parameter_index):
         searchgraph = self.query(reduced_parameter_index)
         searchgraphstring = ''.join([ searchgraph.matching_label(v) for v in searchgraph.vertices ])
         if searchgraphstring not in self.memoization_cache:
-            source = lambda v : searchgraph.matching_label(v) == 's'
-            target = lambda v : searchgraph.matching_label(v) == 't'
-            allowed = lambda v : searchgraph.matching_label(v) != 'd'
-            num_paths = count_paths(searchgraph, source, target, allowed) 
+            alignment_graph = DSGRN.AlignmentGraph(searchgraph, self.patterngraph, self.matching_relation)
+            source = lambda x: x[1] == 0
+            target = lambda x: x[1] == 2
+            num_paths = count_paths(alignment_graph, source, target)
             self.memoization_cache[searchgraphstring] = num_paths
         return self.memoization_cache[searchgraphstring]
 
