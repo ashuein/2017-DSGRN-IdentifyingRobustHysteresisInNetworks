@@ -27,7 +27,7 @@ if __name__ == "__main__":
     S_index = network.index(S)
     N = parametergraph.size()
     M = len(parametergraph.factorgraph(S_index))
-    L = N / M  # number of reduced parameter index
+    L = N // M  # number of reduced parameter index
     Jmax = 2000 # maximum number of jobs to split into
     Kmin = 10000 # minimum number of reduced parameters per job
     K = max(Kmin, int(L/2000))  # number of reduced parameter indices per job

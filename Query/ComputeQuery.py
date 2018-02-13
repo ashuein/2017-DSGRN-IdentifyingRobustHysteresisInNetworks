@@ -21,8 +21,7 @@ class PQNetworkAnalyzer:
         parameter = self.parametergraph.parameter(parameterindex)
         dg = DSGRN.DomainGraph(parameter)
         md = DSGRN.MorseDecomposition(dg.digraph())
-        mg = DSGRN.MorseGraph()
-        mg.assign(dg, md)
+        mg = DSGRN.MorseGraph(dg, md)
         return mg
 
     def is_FP(self, annotation):
@@ -62,7 +61,9 @@ class PQNetworkAnalyzer:
 
     @memoize
     def Classify(self, parameterindex):
-        return self.AnalyzeMorseGraph(self.AnalyzeParameter(parameterindex))
+        analyzed_param = self.AnalyzeParameter(parameterindex)
+        ret_val = self.AnalyzeMorseGraph(analyzed_param) 
+        return ret_val
 
 def topological_sort(graph):
     """
@@ -200,8 +201,8 @@ class ComputeResettableBistabilityQueryFullPath:
 
 if __name__ == "__main__":
     if len(sys.argv) < 10:
-      print("./ComputeQuery network_specification_file.txt partial_hysteresis_output_file.txt partial_resettable_output_file.txt full_hysteresis_output_file.txt full_resettable_output_file.txt starting_rpi ending_rpi S_gene P_gene")
-      exit(1)
+        print("./ComputeQuery network_specification_file.txt partial_hysteresis_output_file.txt partial_resettable_output_file.txt full_hysteresis_output_file.txt full_resettable_output_file.txt starting_rpi ending_rpi S_gene P_gene")
+        exit(1)
     network_specification_file = str(sys.argv[1])
     partial_hysteresis_output_file = str(sys.argv[2])
     partial_resettable_output_file = str(sys.argv[3])
@@ -213,19 +214,21 @@ if __name__ == "__main__":
     P = sys.argv[9]
 
     network = DSGRN.Network(network_specification_file)
+    
     # Partial Path Hysteresis Query
     start_time = time.time()
     hysteresis_query = ComputeHysteresisQueryPartialPath(network, S, P)
     hysteresis_query_result = 0
+
     for rpi in range(starting_rpi, ending_rpi):
-      hysteresis_query_result += hysteresis_query(rpi)
-      if (rpi - starting_rpi) % 10000 == 0:
-        DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
+        hysteresis_query_result += hysteresis_query(rpi)
+        if (rpi - starting_rpi) % 10000 == 0:
+            DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
     normalization = (ending_rpi - starting_rpi)*hysteresis_query.num_paths() 
     with open(partial_hysteresis_output_file, 'w') as outfile:
-      outfile.write(str(hysteresis_query_result) + " " + str(normalization) + "\n")
+        outfile.write(str(hysteresis_query_result) + " " + str(normalization) + "\n")
     with open(partial_hysteresis_output_file + ".log", 'w') as outfile:
-      outfile.write(str(time.time() - start_time) + '\n')
+        outfile.write(str(time.time() - start_time) + '\n')
 
     # Partial Path Resettable Bistability Query
     start_time = time.time()
