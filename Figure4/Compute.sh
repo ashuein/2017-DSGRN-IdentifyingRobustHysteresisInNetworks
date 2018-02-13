@@ -26,4 +26,3 @@ python ../Query/Enqueue.py computations networks/network_7p27 Myc E2F $1
 python ../Query/Enqueue.py computations networks/network_2a Myc E2F $1
 python ../Query/Enqueue.py computations networks/network_2b Myc E2F $1
 python ../Query/Enqueue.py computations networks/network_2a2b Myc E2F $1
-python ../Query/Enqueue.py computations networks/network_yeaststart Cln3 SBF $1

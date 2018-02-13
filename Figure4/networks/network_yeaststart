@@ -1,4 +1,0 @@
-Cln3 : : E 
-SBF_Whi5 : (SBF)(~Cln2)(~Cln3) : E
-SBF : (SBF)(~SBF_Whi5) : E
-Cln2 : SBF : E

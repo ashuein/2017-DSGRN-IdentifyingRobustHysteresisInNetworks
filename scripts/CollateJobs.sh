@@ -27,19 +27,34 @@ for file in `ls $1`; do
 
   ${DIR}/collate.sh $file $2 $3
 
-  echo "Time to compute hysteresis query (in seconds):"
-  cat $3/${file}_hysteresis.time
+  echo "Time to compute partial path hysteresis query (in seconds):"
+  cat $3/${file}_partial_hysteresis.time
 
-  echo "Time to compute resettable bistability query (in seconds):"
-  cat $3/${file}_resettable.time
-
-  echo "Number of hysteresis matches = "
-  cat $3/${file}_hysteresis.result
+  echo "Number of partial path hysteresis matches = "
+  cat $3/${file}_partial_hysteresis.result
   #echo `wc -w "$3/${file}_hysteresis.txt"`
 
-  echo "Number of resettable bistability matches = "
-  cat $3/${file}_resettable.result
+  echo "Time to compute partial path resettable bistability query (in seconds):"
+  cat $3/${file}_partial_resettable.time
+
+  echo "Number of partial path resettable bistability matches = "
+  cat $3/${file}_partial_resettable.result
   #echo `wc -w "$3/${file}_resettable.txt"`
+
+  echo "Time to compute full path hysteresis query (in seconds):"
+  cat $3/${file}_full_hysteresis.time
+
+  echo "Number of full path hysteresis matches = "
+  cat $3/${file}_full_hysteresis.result
+  #echo `wc -w "$3/${file}_hysteresis.txt"`
+
+  echo "Time to compute full path resettable bistability query (in seconds):"
+  cat $3/${file}_full_resettable.time
+
+  echo "Number of full path resettable bistability matches = "
+  cat $3/${file}_full_resettable.result
+  #echo `wc -w "$3/${file}_resettable.txt"`
+
 
   echo " "
 done

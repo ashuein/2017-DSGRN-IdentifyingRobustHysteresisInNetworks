@@ -14,13 +14,21 @@
 # network_2a2b8
 # Number of reduced parameter indices = 
 # 180351360
-# Time to compute hysteresis query (in seconds):
+# Time to compute partial path hysteresis query (in seconds):
 # 886531
-# Time to compute resettable bistability query (in seconds):
-# 880204
-# Number of hysteresis matches = 
+# Number of partial path hysteresis matches = 
 # 170324 computations/network_2a2b8_hysteresis.txt
-# Number of resettable bistability matches = 
+# Time to compute partial path resettable bistability query (in seconds):
+# 880204
+# Number of partial path resettable bistability matches = 
+# 5246268 computations/network_2a2b8_resettable.txt
+# Time to compute full path hysteresis query (in seconds):
+# 886531
+# Number of full path hysteresis matches = 
+# 170324 computations/network_2a2b8_hysteresis.txt
+# Time to compute full path resettable bistability query (in seconds):
+# 880204
+# Number of full path resettable bistability matches = 
 # 5246268 computations/network_2a2b8_resettable.txt
 #
 # ...repeat...
@@ -41,20 +49,26 @@ if __name__ == "__main__":
   lines = [ line for i, line in enumerate(lines) if i%2 == 1 ] # odd lines
   lines = [ line.split() for line in lines ]
 
-  N = len(lines)/6
+  N = len(lines)/10
 
   s = '{'
   for i in range(0,N):
     if i > 0:
       s += ", "
-    s += '"' + lines[6*i+0][0] + '" : { '
-    s += ' "reduced_param_indices" : ' + lines[6*i+1][0] + ', '
-    s += ' "time_to_compute_hysteresis" : ' + lines[6*i+2][0] + ', '
-    s += ' "time_to_compute_resettable" : ' + lines[6*i+3][0] + ', '
-    s += ' "hysteresis_matches" : ' + lines[6*i+4][0] + ', '
-    s += ' "hysteresis_params" : ' + lines[6*i+4][1] + ', '
-    s += ' "resettable_matches" : ' + lines[6*i+5][0] + ', '
-    s += ' "resettable_params" : ' + lines[6*i+5][1] + '}'
+    s += '"' + lines[10*i+0][0] + '" : { '
+    s += ' "reduced_param_indices" : ' + lines[10*i+1][0] + ', '
+    s += ' "time_to_compute_partial_hysteresis" : ' + lines[10*i+2][0] + ', '
+    s += ' "partial_hysteresis_matches" : ' + lines[10*i+3][0] + ', '
+    s += ' "partial_hysteresis_params" : ' + lines[10*i+3][1] + ', '
+    s += ' "time_to_compute_partial_resettable" : ' + lines[10*i+4][0] + ', '
+    s += ' "partial_resettable_matches" : ' + lines[10*i+5][0] + ', '
+    s += ' "partial_resettable_params" : ' + lines[10*i+5][1] + ', '
+    s += ' "time_to_compute_full_hysteresis" : ' + lines[10*i+6][0] + ', '
+    s += ' "full_hysteresis_matches" : ' + lines[10*i+7][0] + ', '
+    s += ' "full_hysteresis_params" : ' + lines[10*i+7][1] + ', '
+    s += ' "time_to_compute_full_resettable" : ' + lines[10*i+8][0] + ', '
+    s += ' "full_resettable_matches" : ' + lines[10*i+9][0] + ', '
+    s += ' "full_resettable_params" : ' + lines[10*i+9][1] + '}'
   s += '}'
 
   print(s)

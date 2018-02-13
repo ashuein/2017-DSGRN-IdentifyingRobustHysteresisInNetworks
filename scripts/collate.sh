@@ -15,23 +15,45 @@
 #   argument 2: location of shard files
 #   argument 3: location to store collated files
 
-rm -f $3/$1_hysteresis.txt
-rm -f $3/$1_hysteresis.log
+rm -f $3/$1_partial_hysteresis.txt
+rm -f $3/$1_partial_hysteresis.log
 
-rm -f $3/$1_resettable.txt
-rm -f $3/$1_resettable.log
+rm -f $3/$1_partial_resettable.txt
+rm -f $3/$1_partial_resettable.log
 
-cat $2/$1_hysteresis*.txt > $3/$1_hysteresis.txt
-cat $2/$1_hysteresis*.log > $3/$1_hysteresis.log
+rm -f $3/$1_full_hysteresis.txt
+rm -f $3/$1_full_hysteresis.log
 
-cat $2/$1_resettable*.txt > $3/$1_resettable.txt
-cat $2/$1_resettable*.log > $3/$1_resettable.log
+rm -f $3/$1_full_resettable.txt
+rm -f $3/$1_full_resettable.log
 
-#echo "Time to compute hysteresis query (in seconds):"
-awk '{ sum += $1 } END { print sum }' $3/$1_hysteresis.log > $3/$1_hysteresis.time
+cat $2/$1_partial_hysteresis*.txt > $3/$1_partial_hysteresis.txt
+cat $2/$1_partial_hysteresis*.log > $3/$1_partial_hysteresis.log
 
-#echo "Time to compute resettable bistability query (in seconds):"
-awk '{ sum += $1 } END { print sum }' $3/$1_resettable.log > $3/$1_resettable.time
+cat $2/$1_partial_resettable*.txt > $3/$1_partial_resettable.txt
+cat $2/$1_partial_resettable*.log > $3/$1_partial_resettable.log
 
-awk '{ sum += $1; total += $2 } END { print sum " " total }' $3/$1_hysteresis.txt > $3/$1_hysteresis.result
-awk '{ sum += $1; total += $2 } END { print sum " " total }' $3/$1_resettable.txt > $3/$1_resettable.result
+cat $2/$1_full_hysteresis*.txt > $3/$1_full_hysteresis.txt
+cat $2/$1_full_hysteresis*.log > $3/$1_full_hysteresis.log
+
+cat $2/$1_full_resettable*.txt > $3/$1_full_resettable.txt
+cat $2/$1_full_resettable*.log > $3/$1_full_resettable.log
+
+#echo "Time to compute partial hysteresis query (in seconds):"
+awk '{ sum += $1 } END { print sum }' $3/$1_partial_hysteresis.log > $3/$1_partial_hysteresis.time
+
+#echo "Time to compute partial resettable bistability query (in seconds):"
+awk '{ sum += $1 } END { print sum }' $3/$1_partial_resettable.log > $3/$1_partial_resettable.time
+
+#echo "Time to compute full hysteresis query (in seconds):"
+awk '{ sum += $1 } END { print sum }' $3/$1_full_hysteresis.log > $3/$1_full_hysteresis.time
+
+#echo "Time to compute full resettable bistability query (in seconds):"
+awk '{ sum += $1 } END { print sum }' $3/$1_full_resettable.log > $3/$1_full_resettable.time
+
+awk '{ sum += $1; total += $2 } END { print sum " " total }' $3/$1_partial_hysteresis.txt > $3/$1_partial_hysteresis.result
+awk '{ sum += $1; total += $2 } END { print sum " " total }' $3/$1_partial_resettable.txt > $3/$1_partial_resettable.result
+
+awk '{ sum += $1; total += $2 } END { print sum " " total }' $3/$1_full_hysteresis.txt > $3/$1_full_hysteresis.result
+awk '{ sum += $1; total += $2 } END { print sum " " total }' $3/$1_full_resettable.txt > $3/$1_full_resettable.result
+

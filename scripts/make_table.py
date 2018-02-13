@@ -29,19 +29,30 @@ if __name__ == "__main__":
 
   X = json.loads(data)
 
-  csv_file_string = "network,percent_hysteresis,percent_resettable_bistability,time\n"
-  md_file_string = " | network | figure | Percent hysteresis match | Percent resettable bistability match | time |\n"
-  md_file_string +=" | ------- | ------ | ------------------------ | ------------------------------------ | ---- |\n"
+  csv_file_string = "network,percent_partial_path_hysteresis,percent_partial_path_resettable_bistability,percent_full_path_hysteresis,percent_full_path_resettable_bistability,time\n"
+  md_file_string = "| network | figure | partial path hysteresis match | partial path resettable bistability match |  full path hysteresis match | full path resettable bistability match | time |\n"
+  md_file_string +="| ------- | ------ | ------------------------ | ------------------------------------ | ---- | ---- | ---- |\n"
   for key in sorted(X):
     rpi = float(X[key]["reduced_param_indices"])
-    h_match = float(X[key]["hysteresis_matches"])
-    h_param = float(X[key]["hysteresis_params"])
-    r_match = float(X[key]["resettable_matches"])
-    r_param = float(X[key]["resettable_params"])
-    h_time = float(X[key]["time_to_compute_hysteresis"])
-    r_time = float(X[key]["time_to_compute_resettable"])
-    csv_file_string += key + "," + str(100.0 *h_match / h_param) + "," + str(100.0 * r_match / r_param) + "," + str(h_time + r_time) + "\n"
-    md_file_string += key + "| ![](./" + key + ".gv.png) |" + str(100.0 *h_match / h_param) + "% | " + str(100.0 * r_match / r_param) + "% | " + str(h_time + r_time) + " |\n"
+    ph_match = float(X[key]["partial_hysteresis_matches"])
+    ph_param = float(X[key]["partial_hysteresis_params"])
+    pr_match = float(X[key]["partial_resettable_matches"])
+    pr_param = float(X[key]["partial_resettable_params"])
+    ph_time = float(X[key]["time_to_compute_partial_hysteresis"])
+    pr_time = float(X[key]["time_to_compute_partial_resettable"])
+    fh_match = float(X[key]["full_hysteresis_matches"])
+    fh_param = float(X[key]["full_hysteresis_params"])
+    fr_match = float(X[key]["full_resettable_matches"])
+    fr_param = float(X[key]["full_resettable_params"])
+    fh_time = float(X[key]["time_to_compute_full_hysteresis"])
+    fr_time = float(X[key]["time_to_compute_full_resettable"])
+    ph_ratio = str(100.0 * ph_match / ph_param) 
+    pr_ratio = str(100.0 * pr_match / pr_param) 
+    fh_ratio = str(100.0 * fh_match / fh_param) 
+    fr_ratio = str(100.0 * fr_match / fr_param) 
+    t = str(ph_time + pr_time + fh_time + fr_time)
+    csv_file_string += key + "," + ph_ratio + "," + pr_ratio + "," + fh_ratio + ", " + fr_ratio + ", " + t + "\n"
+    md_file_string += key + "| ![](./" + key + ".gv.png) |" + ph_ratio + "% | " + pr_ratio + "% | " + fh_ratio + "% | " + fr_ratio + "% | " +  t + " |\n"
 
   with open(csv_filename, 'w') as outfile:
     outfile.write(csv_file_string)

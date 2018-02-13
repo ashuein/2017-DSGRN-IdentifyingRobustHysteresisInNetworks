@@ -24,4 +24,4 @@
 
 A=$2
 B=`basename $3`
-python $1 $3 ${A}/${B}_hysteresis_$4_$5.txt ${A}/${B}_resettable_$4_$5.txt $4 $5 $6 $7
+python $1 $3 ${A}/${B}_partial_hysteresis_$4_$5.txt ${A}/${B}_partial_resettable_$4_$5.txt ${A}/${B}_full_hysteresis_$4_$5.txt ${A}/${B}_full_resettable_$4_$5.txt $4 $5 $6 $7
