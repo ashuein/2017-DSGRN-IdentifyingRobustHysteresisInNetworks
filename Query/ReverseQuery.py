@@ -163,13 +163,15 @@ class ComputeHysteresisQueryFullPath:
         if searchgraphstring not in self.memoization_cache:
             alignment_graph = DSGRN.AlignmentGraph(searchgraph, self.patterngraph, self.matching_relation)
             source = lambda x: x[0] == self.root and x[1] == 0
-            target = lambda x: x[0] == self.leaf and x[1] == 2
+            target = lambda x: x[0] == self.leaf and x[1] == 4
             num_paths = count_paths(alignment_graph, source, target)
             self.memoization_cache[searchgraphstring] = num_paths
         return self.memoization_cache[searchgraphstring]
 
     def num_paths(self):
-        return count_paths(self.query(0))
+        source = lambda x: x == self.root
+        target = lambda x: x == self.leaf
+        return count_paths(self.query(0), source, target)
 
 class ComputeResettableBistabilityQueryFullPath:
     def __init__(self, network, S, P):
@@ -195,14 +197,17 @@ class ComputeResettableBistabilityQueryFullPath:
         return self.memoization_cache[searchgraphstring]
 
     def num_paths(self):
-        return count_paths(self.query(0))
-
+        source = lambda x: x == self.root
+        target = lambda x: x == self.leaf
+        return count_paths(self.query(0), source, target)
 
 if __name__ == "__main__":
+    # Read command line arguments
     if len(sys.argv) < 10:
-      print("./ComputeQuery network_specification_file.txt partial_hysteresis_output_file.txt partial_resettable_output_file.txt full_hysteresis_output_file.txt full_resettable_output_file.txt starting_rpi ending_rpi S_gene P_gene")
-      exit(1)
+        print("./ComputeQuery network_specification_file.txt partial_hysteresis_output_file.txt partial_resettable_output_file.txt full_hysteresis_output_file.txt full_resettable_output_file.txt starting_rpi ending_rpi S_gene P_gene")
+        exit(1)
     network_specification_file = str(sys.argv[1])
+    network = DSGRN.Network(network_specification_file)
     partial_hysteresis_output_file = str(sys.argv[2])
     partial_resettable_output_file = str(sys.argv[3])
     full_hysteresis_output_file = str(sys.argv[4])
@@ -212,63 +217,25 @@ if __name__ == "__main__":
     S = sys.argv[8]
     P = sys.argv[9]
 
-    network = DSGRN.Network(network_specification_file)
-    # Partial Path Hysteresis Query
-    start_time = time.time()
-    hysteresis_query = ComputeHysteresisQueryPartialPath(network, S, P)
-    hysteresis_query_result = 0
-    for rpi in range(starting_rpi, ending_rpi):
-      hysteresis_query_result += hysteresis_query(rpi)
-      if (rpi - starting_rpi) % 10000 == 0:
-        DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
-    normalization = (ending_rpi - starting_rpi)*hysteresis_query.num_paths() 
-    with open(partial_hysteresis_output_file, 'w') as outfile:
-      outfile.write(str(hysteresis_query_result) + " " + str(normalization) + "\n")
-    with open(partial_hysteresis_output_file + ".log", 'w') as outfile:
-      outfile.write(str(time.time() - start_time) + '\n')
+    # Routine to run queries
+    def RunQueries(Query, filename):
+        start_time = time.time()
+        query = Query(network, S, P)
+        result = 0    
+        for rpi in range(starting_rpi, ending_rpi):
+            result += query(rpi)
+            if (rpi - starting_rpi) % 10000 == 0:
+                DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
+        normalization = (ending_rpi - starting_rpi)*query.num_paths() 
+        with open(filename, 'w') as outfile:
+            outfile.write(str(result) + " " + str(normalization) + "\n")
+        with open(filename + ".log", 'w') as outfile:
+            outfile.write(str(time.time() - start_time) + '\n')
 
-    # Partial Path Resettable Bistability Query
-    start_time = time.time()
-    resettable_query = ComputeResettableBistabilityQueryPartialPath(network, S, P)
-    resettable_query_result = 0
-    for rpi in range(starting_rpi, ending_rpi):
-      resettable_query_result += resettable_query(rpi)
-      if (rpi - starting_rpi) % 10000 == 0:
-        DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
-    normalization = (ending_rpi - starting_rpi)*resettable_query.num_paths() 
-    with open(partial_resettable_output_file, 'w') as outfile:
-      outfile.write(str(resettable_query_result) + " " + str(normalization) + "\n")
-    with open(partial_resettable_output_file + ".log", 'w') as outfile:
-      outfile.write(str(time.time() - start_time) + '\n')
-
-    # Full Path Hysteresis Query
-    start_time = time.time()
-    hysteresis_query = ComputeHysteresisQueryFullPath(network, S, P)
-    hysteresis_query_result = 0
-    for rpi in range(starting_rpi, ending_rpi):
-      hysteresis_query_result += hysteresis_query(rpi)
-      if (rpi - starting_rpi) % 10000 == 0:
-        DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
-    normalization = (ending_rpi - starting_rpi)*hysteresis_query.num_paths() 
-    with open(full_hysteresis_output_file, 'w') as outfile:
-      outfile.write(str(hysteresis_query_result) + " " + str(normalization) + "\n")
-    with open(full_hysteresis_output_file + ".log", 'w') as outfile:
-      outfile.write(str(time.time() - start_time) + '\n')
-
-    # Partial Path Resettable Bistability Query
-    start_time = time.time()
-    resettable_query = ComputeResettableBistabilityQueryFullPath(network, S, P)
-    resettable_query_result = 0
-    for rpi in range(starting_rpi, ending_rpi):
-      resettable_query_result += resettable_query(rpi)
-      if (rpi - starting_rpi) % 10000 == 0:
-        DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
-    normalization = (ending_rpi - starting_rpi)*resettable_query.num_paths() 
-    with open(full_resettable_output_file, 'w') as outfile:
-      outfile.write(str(resettable_query_result) + " " + str(normalization) + "\n")
-    with open(full_resettable_output_file + ".log", 'w') as outfile:
-      outfile.write(str(time.time() - start_time) + '\n')
+    # Queries to run
+    RunQueries(ComputeHysteresisQueryPartialPath, partial_hysteresis_output_file)
+    RunQueries(ComputeResettableBistabilityQueryPartialPath, partial_resettable_output_file)
+    RunQueries(ComputeHysteresisQueryFullPath, full_hysteresis_output_file)
+    RunQueries(ComputeResettableBistabilityQueryFullPath, full_resettable_output_file)
 
     exit(0)
-    
-
