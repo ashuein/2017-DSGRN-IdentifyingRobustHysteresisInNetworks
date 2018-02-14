@@ -225,8 +225,8 @@ if __name__ == "__main__":
         result = 0    
         for rpi in range(starting_rpi, ending_rpi):
             number_of_matches = query(rpi)
-            if number_of_matches > 0:
-                DSGRN.LogToSTDOUT("Reduced parameter " + str(rpi) + " has " + str(number_of_matches) + " matches for query " + query.__class__.__name__)
+            #if number_of_matches > 0:
+            #    DSGRN.LogToSTDOUT("Reduced parameter " + str(rpi) + " has " + str(number_of_matches) + " matches for query " + query.__class__.__name__)
             result += number_of_matches
             if (rpi - starting_rpi) % 10000 == 0:
                 DSGRN.LogToSTDOUT("Processed from " + str(starting_rpi) + " to " + str(rpi) + " out of " + str(ending_rpi))
