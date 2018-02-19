@@ -54,12 +54,25 @@ def CheckNetworkIsomorphism(network1, network2):
   return False
 
 def CheckIfNetworkNontrivial(network):
-  # if some node has zero inputs, network is trivial
-  ab = network[0][1] or network[1][0]
-  bc = network[0][2] or network[2][0]
-  ac = network[1][2] or network[2][1]
-  nonzerooutputs = all(any([ network[j][i] != 0 for j in range(0,3) ]) for i in range(0,3))
-  return nonzerooutputs and ( (ab and bc) or (ab and ac) or (bc and ac))
+  ab = network[0][1]
+  ba = network[1][0]
+  ac = network[0][2]
+  ca = network[2][0]
+  bc = network[1][2]
+  cb = network[2][1]
+  circle = (ab and bc and ca) or (ac and cb and ba )
+  aUb = (ab and ba) or circle
+  aUc = (ac and ca) or circle
+  bUc = (bc and cb) or circle
+  return aUb and aUc and bUc 
+
+# def CheckIfNetworkNontrivial(network):
+#   # if some node has zero inputs, network is trivial
+#   ab = network[0][1] or network[1][0]
+#   bc = network[0][2] or network[2][0]
+#   ac = network[1][2] or network[2][1]
+#   nonzerooutputs = all(any([ network[j][i] != 0 for j in range(0,3) ]) for i in range(0,3))
+#   return nonzerooutputs and ( (ab and bc) or (ab and ac) or (bc and ac))
 
 def NetworkFileString(network):
   symbol = { -1 : "R", 0 : "0", 1 : "A" }
