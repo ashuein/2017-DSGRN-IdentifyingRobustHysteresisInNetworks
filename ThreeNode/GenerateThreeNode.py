@@ -88,7 +88,7 @@ def NetworkSpecFile(network):
       activators = '(' + activators + ')'
     if repressors:
       repressors = '(' + repressors + ')'
-    spec += activators + repressors + "\n"
+    spec += activators + repressors + ( " : E\n" if i > 0 else "\n")
   return spec
 
 for network in possibilities:
