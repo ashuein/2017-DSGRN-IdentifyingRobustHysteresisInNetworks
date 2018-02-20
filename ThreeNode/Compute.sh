@@ -13,7 +13,7 @@ mkdir -p networks
 python GenerateThreeNode.py
 mv networks bignetworks
 mkdir -p networks
-for file in `ls allnetworks | grep "0"`; do
+for file in `ls bignetworks | grep "0"`; do
   mv ./bignetworks/$file networks
 done
 
