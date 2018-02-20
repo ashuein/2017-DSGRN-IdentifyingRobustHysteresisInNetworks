@@ -11,7 +11,12 @@
 mkdir -p computations
 mkdir -p networks
 python GenerateThreeNode.py
+mv networks bignetworks
+mkdir -p networks
+for file in `ls allnetworks | grep "0"`; do
+  mv ./bignetworks/$file networks
+done
 
 for filename in `ls networks`; do
-  python ../Query/Enqueue.py computations networks/${filename} X0 X2 $1
+  python ../Query/SingleJobEnqueue.py computations networks/${filename} X0 X2 $1
 done

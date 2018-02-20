@@ -7,7 +7,6 @@
 # for queries indicated in the "Query" paper
 
 import DSGRN
-from memoize import memoize
 import time
 import sys
 
@@ -59,7 +58,6 @@ class PQNetworkAnalyzer:
             return 'p'
         return 'O'
 
-    @memoize
     def Classify(self, parameterindex):
         analyzed_param = self.AnalyzeParameter(parameterindex)
         ret_val = self.AnalyzeMorseGraph(analyzed_param) 
@@ -217,15 +215,13 @@ if __name__ == "__main__":
     ending_rpi = int(sys.argv[7])
     S = sys.argv[8]
     P = sys.argv[9]
-
-    # Routine to run queries
+    DSGRN.LogToSTDOUT("Parameter graph has " + str(DSGRN.ParameterGraph(network).size()) + " parameters. ")
     def RunQueries(Query, filename):
         start_time = time.time()
         query = Query(network, S, P)
         result = 0    
         for rpi in range(starting_rpi, ending_rpi):
             number_of_matches = query(rpi)
-            #if number_of_matches > 0:
             #    DSGRN.LogToSTDOUT("Reduced parameter " + str(rpi) + " has " + str(number_of_matches) + " matches for query " + query.__class__.__name__)
             result += number_of_matches
             if (rpi - starting_rpi) % 10000 == 0:
