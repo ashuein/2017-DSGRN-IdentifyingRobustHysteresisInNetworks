@@ -21,8 +21,7 @@ class PQNetworkAnalyzer:
         parameter = self.parametergraph.parameter(parameterindex)
         dg = DSGRN.DomainGraph(parameter)
         md = DSGRN.MorseDecomposition(dg.digraph())
-        mg = DSGRN.MorseGraph()
-        mg.assign(dg, md)
+        mg = DSGRN.MorseGraph(dg, md)
         return mg
 
     def is_FP(self, annotation):
