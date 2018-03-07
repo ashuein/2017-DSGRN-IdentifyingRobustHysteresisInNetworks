@@ -29,10 +29,12 @@ if __name__ == "__main__":
 
   X = json.loads(data)
 
-  csv_file_string = "network,percent_partial_path_hysteresis,percent_partial_path_resettable_bistability,percent_full_path_hysteresis,percent_full_path_resettable_bistability,time\n"
-  md_file_string = "| network | figure | partial path hysteresis match | partial path resettable bistability match |  full path hysteresis match | full path resettable bistability match | time |\n"
-  md_file_string +="| ------- | ------ | ------------------------ | ------------------------------------ | ---- | ---- | ---- |\n"
+  csv_file_string = "network,input_node,output_node,percent_partial_path_hysteresis,percent_partial_path_resettable_bistability,percent_full_path_hysteresis,percent_full_path_resettable_bistability,time\n"
+  md_file_string = "| network | figure | inputnode | outputnode | partial path hysteresis match | partial path resettable bistability match |  full path hysteresis match | full path resettable bistability match | time |\n"
+  md_file_string +="| ------- | ------ | --------- | ---------- | ------------------------ | ------------------------------------ | ---- | ---- | ---- |\n"
   for key in sorted(X):
+    input_node = (X[key]["input_node"])
+    output_node = (X[key]["output_node"])
     rpi = float(X[key]["reduced_param_indices"])
     ph_match = float(X[key]["partial_hysteresis_matches"])
     ph_param = float(X[key]["partial_hysteresis_params"])
@@ -51,8 +53,8 @@ if __name__ == "__main__":
     fh_ratio = str(100.0 * fh_match / fh_param) 
     fr_ratio = str(100.0 * fr_match / fr_param) 
     t = str(ph_time + pr_time + fh_time + fr_time)
-    csv_file_string += key + "," + ph_ratio + "," + pr_ratio + "," + fh_ratio + ", " + fr_ratio + ", " + t + "\n"
-    md_file_string += key + "| ![](./" + key + ".gv.png) |" + ph_ratio + "% | " + pr_ratio + "% | " + fh_ratio + "% | " + fr_ratio + "% | " +  t + " |\n"
+    csv_file_string += key + "," + input_node + "," + output_node + "," + ph_ratio + "," + pr_ratio + "," + fh_ratio + ", " + fr_ratio + ", " + t + "\n"
+    md_file_string += key + "| ![](./" + key + ".gv.png) | " + input_node + " | " + output_node + " | " + ph_ratio + "% | " + pr_ratio + "% | " + fh_ratio + "% | " + fr_ratio + "% | " +  t + " |\n"
 
   with open(csv_filename, 'w') as outfile:
     outfile.write(csv_file_string)

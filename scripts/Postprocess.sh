@@ -13,11 +13,13 @@
 #   Argument 2: computation_folder  (folder to find computational shard files in)
 #   Argument 3: results_folder  (folder to store collated results in)
 #   Argument 4: gene_name  (name of gene used for factor graph search)
+#   Argument 5: outgene_name  (name of gene used to read output in queries)
 
 network_folder=$1
 computation_folder=$2
 results_folder=$3
 gene_name=$4 
+outgene_name=$5
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 

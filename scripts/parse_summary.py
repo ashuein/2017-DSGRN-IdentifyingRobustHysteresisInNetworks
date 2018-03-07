@@ -49,26 +49,28 @@ if __name__ == "__main__":
   lines = [ line for i, line in enumerate(lines) if i%2 == 1 ] # odd lines
   lines = [ line.split() for line in lines ]
 
-  N = len(lines)/10
+  N = len(lines)/12
 
   s = '{'
   for i in range(0,N):
     if i > 0:
       s += ", "
-    s += '"' + lines[10*i+0][0] + '" : { '
-    s += ' "reduced_param_indices" : ' + lines[10*i+1][0] + ', '
-    s += ' "time_to_compute_partial_hysteresis" : ' + lines[10*i+2][0] + ', '
-    s += ' "partial_hysteresis_matches" : ' + lines[10*i+3][0] + ', '
-    s += ' "partial_hysteresis_params" : ' + lines[10*i+3][1] + ', '
-    s += ' "time_to_compute_partial_resettable" : ' + lines[10*i+4][0] + ', '
-    s += ' "partial_resettable_matches" : ' + lines[10*i+5][0] + ', '
-    s += ' "partial_resettable_params" : ' + lines[10*i+5][1] + ', '
-    s += ' "time_to_compute_full_hysteresis" : ' + lines[10*i+6][0] + ', '
-    s += ' "full_hysteresis_matches" : ' + lines[10*i+7][0] + ', '
-    s += ' "full_hysteresis_params" : ' + lines[10*i+7][1] + ', '
-    s += ' "time_to_compute_full_resettable" : ' + lines[10*i+8][0] + ', '
-    s += ' "full_resettable_matches" : ' + lines[10*i+9][0] + ', '
-    s += ' "full_resettable_params" : ' + lines[10*i+9][1] + '}'
+    s += '"' + lines[12*i+0][0] + '" : { '
+    s += ' "input_node" : ' + lines[12*i+1][0] + ', '
+    s += ' "output_node" : ' + lines[12*i+2][0] + ', '
+    s += ' "reduced_param_indices" : ' + lines[12*i+3][0] + ', '
+    s += ' "time_to_compute_partial_hysteresis" : ' + lines[12*i+4][0] + ', '
+    s += ' "partial_hysteresis_matches" : ' + lines[12*i+5][0] + ', '
+    s += ' "partial_hysteresis_params" : ' + lines[12*i+5][1] + ', '
+    s += ' "time_to_compute_partial_resettable" : ' + lines[12*i+6][0] + ', '
+    s += ' "partial_resettable_matches" : ' + lines[12*i+7][0] + ', '
+    s += ' "partial_resettable_params" : ' + lines[12*i+7][1] + ', '
+    s += ' "time_to_compute_full_hysteresis" : ' + lines[12*i+8][0] + ', '
+    s += ' "full_hysteresis_matches" : ' + lines[12*i+9][0] + ', '
+    s += ' "full_hysteresis_params" : ' + lines[12*i+9][1] + ', '
+    s += ' "time_to_compute_full_resettable" : ' + lines[12*i+10][0] + ', '
+    s += ' "full_resettable_matches" : ' + lines[12*i+11][0] + ', '
+    s += ' "full_resettable_params" : ' + lines[12*i+11][1] + '}'
   s += '}'
 
   print(s)

@@ -14,6 +14,7 @@
 #   Argument 2: folder containing computational results
 #   Argument 3: folder to store collated results in
 #   Argument 4: gene name for query
+#   Argument 5: output gene name for query
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -21,6 +22,12 @@ for file in `ls $1`; do
 
   echo "Network:"
   echo $file
+
+  echo "Input Node:"
+  echo $4
+
+  echo "Output Node:"
+  echo $5
 
   echo "Number of reduced parameter indices = "
   python ${DIR}/NumReducedParameterIndex.py $1/$file $4
