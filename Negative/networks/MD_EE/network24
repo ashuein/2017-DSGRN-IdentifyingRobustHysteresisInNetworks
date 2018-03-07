@@ -1,0 +1,3 @@
+MD : (EE)
+Rp : (~MD) : E
+EE : (MD)(~Rp) : E

@@ -15,19 +15,19 @@ This code repository is supplemental to the paper "Identifying robust hysteresis
 
 (Note: for cluster users, there is a slight change to these instructions, see below.)
 
-### Figure 3
+### Positive influence on input node
 
 ```bash
-cd Figure3
+cd Positive
 ./Compute.sh
 # Wait until jobs are finished.
 ./Postprocess.sh
 ```
 
-### Figure 4
+### Negative influence on input node
 
 ```bash
-cd Figure4
+cd Negative
 ./Compute.sh
 # Wait until jobs are finished.
 ./Postprocess.sh
