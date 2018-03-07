@@ -25,7 +25,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 mkdir -p $3
 
-${DIR}/CollateJobs.sh $1 $2 $3 $4 > $3/summary.txt
+${DIR}/CollateJobs.sh $1 $2 $3 $4 $5 > $3/summary.txt
 python ${DIR}/parse_summary.py  $3/summary.txt > $3/summary.json
 python ${DIR}/draw_networks.py $1 $3
 python ${DIR}/make_table.py $3/summary.json $3/table.csv $3/table.md
