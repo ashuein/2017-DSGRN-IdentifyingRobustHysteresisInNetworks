@@ -27,6 +27,6 @@ if __name__ == "__main__":
   networks.sort()
   for f in networks:
       network = DSGRN.Network( networkfolder + '/' + f)
-      print(network.graphviz())
+      #print(network.graphviz())
       x = graphviz.Source(network.graphviz(), filename= imagefolder + '/' + f + '.gv', format='png')
       x.render()
