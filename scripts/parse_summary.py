@@ -49,15 +49,15 @@ if __name__ == "__main__":
   lines = [ line for i, line in enumerate(lines) if i%2 == 1 ] # odd lines
   lines = [ line.split() for line in lines ]
 
-  N = len(lines)/12
+  N = len(lines)//12
 
   s = '{'
   for i in range(0,N):
     if i > 0:
       s += ", "
     s += '"' + lines[12*i+0][0] + '" : { '
-    s += ' "input_node" : ' + lines[12*i+1][0] + ', '
-    s += ' "output_node" : ' + lines[12*i+2][0] + ', '
+    s += ' "input_node" : "' + lines[12*i+1][0] + '", '
+    s += ' "output_node" : "' + lines[12*i+2][0] + '", '
     s += ' "reduced_param_indices" : ' + lines[12*i+3][0] + ', '
     s += ' "time_to_compute_partial_hysteresis" : ' + lines[12*i+4][0] + ', '
     s += ' "partial_hysteresis_matches" : ' + lines[12*i+5][0] + ', '
